@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head  lang="en">
+    <link href="/static/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet" type="text/css" />
+    <meta charset="UTF-8">
+    <title>Update Resource</title>
+    </meta>
+</head>
+
+<body>
+<div class="container">
+
+    <h2>Resource Details</h2>
+    <div>
+        <form class="form-horizontal" th:object="${bucket}" th:action="@{/resource/save}" method="post">
+            <input type="hidden" th:field="*{uid}"/>
+            <input type="hidden" th:field="*{lockOwn}"/>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Author:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" th:field="*{author}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">New Resource URI:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" placeholder="New URI.." th:field="*{uri}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Resource Name:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" placeholder="New name.." th:field="*{name}"/>
+                </div>
+            </div>
+            <div class="row">
+                <button onclick="return conf()" type="submit" class="btn btn-default">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function conf() {
+        return confirm("Are you sure you want to UPDATE this resource?");
+    }
+</script>
+
+</body>
+
+</html>

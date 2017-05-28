@@ -542,6 +542,7 @@ public class HazelcastResourceServiceImpl implements ResourceService {
     }
 
     @Override
+
     public Resource insertChildResource(CreateResourceDTO createResourceDTO, String parentContext, Resource parentResource) {
         //Unique URI: parentContext/relativePath
         final String uuri = parentContext + "/" + createResourceDTO.getResourceName();
@@ -587,6 +588,71 @@ public class HazelcastResourceServiceImpl implements ResourceService {
             throw new ResourceNotFound("The resuroce for uuid="+uuid+" could not be found");
         }
         return list.get(0).getResource().getUid();
+    }
+
+    @Override
+    public List<ResourceDTO> getAllRes(){
+        List<ResourceDTO> dtoList=new ArrayList<ResourceDTO>();
+        List<Resource> resList = resourceRepository.findAll();
+
+        for(Resource res : resList){
+            Revision latestRevision = crs.getLatestRevision(res.getUid());
+            if (latestRevision != null) {
+                boolean isNotDeleted = latestRevision.getDeletedAt() == null;
+                if (isNotDeleted) {
+                    dtoList.add(crs.convertToDTO(latestRevision.getResource()));
+                } else {
+//                    throw new ResourceNotFound("The supplied resource UID [" + res.getUid() + "] does not exist.");
+                }
+            } else {
+//                throw new ResourceAccessError("The supplied resource data are invalid and the resource cannot be retrieved.");
+            }
+        }
+
+        return  dtoList;
+    }
+
+    @Override
+    public List<String[]> getAllRevs(String uid){
+        final List<Revision> revisions = revisionRepository.findRevisions(uid, new PageRequest(0, 100));
+        List<String[]> revList=new ArrayList<String[]>();
+
+
+        if(revisions.isEmpty())
+            return null;
+        for(Revision rev : revisions){
+            String[] col=new String[8];
+            col[0]=rev.getId().toString();
+            col[1]=rev.getCreatedAt().toString();
+            if(rev.getDeletedAt()==null)
+                col[2]="-";
+            else
+                col[2]=rev.getDeletedAt().toString();
+            col[3]=rev.getTitle();
+            if(rev.getUpdatedAt()==null)
+                col[4]="-";
+            else
+                col[4]=rev.getUpdatedAt().toString();
+            if(rev.getArchivedResource()!=null)
+                if(rev.getArchivedResource().getId()==null)
+                    col[5]="-";
+                else
+                    col[5]=rev.getArchivedResource().getId().toString();
+            else
+                col[5]="-";
+            if(rev.getParentResource().getId()==null)
+                col[6]="-";
+            else
+                col[6]=rev.getParentResource().getId().toString();
+            if(rev.getResource().getId()==null)
+                col[7]="-";
+            else
+                col[7]=rev.getResource().getId().toString();
+
+            revList.add(col);
+        }
+//
+        return  revList;
     }
 
     @Override

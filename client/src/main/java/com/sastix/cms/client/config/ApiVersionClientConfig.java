@@ -24,19 +24,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 
 @Configuration
 @Profile("production")
+@ComponentScan
 public class ApiVersionClientConfig {
 
-    @Value("${cms.server.host}")
-    private String host;
+//    @Value("${cms.server.host}")
+    private String host="localhost";
 
-    @Value("${cms.server.port}")
-    private String port;
+//    @Value("${cms.server.port}")
+    private String port="9082";
 
     @Autowired
     @Qualifier("CmsRestTemplate")

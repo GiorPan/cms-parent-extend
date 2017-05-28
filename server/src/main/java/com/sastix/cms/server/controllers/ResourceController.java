@@ -23,6 +23,7 @@ import com.sastix.cms.common.content.exceptions.ResourceAccessError;
 import com.sastix.cms.common.content.exceptions.ResourceNotFound;
 import com.sastix.cms.common.content.exceptions.ResourceNotOwned;
 import com.sastix.cms.server.CmsServer;
+import com.sastix.cms.server.domain.entities.Resource;
 import com.sastix.cms.server.domain.repositories.ResourceRepository;
 import com.sastix.cms.server.services.content.HashedDirectoryService;
 import com.sastix.cms.server.services.content.ResourceService;
@@ -48,6 +49,7 @@ import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 @RestController
 @RequestMapping("/" + CmsServer.CONTEXT)
@@ -226,5 +228,21 @@ public class ResourceController implements BeanFactoryAware {
         LOG.trace(Constants.GET_PARENT_UUID + " uuid={}", uuid);
         String ret = resourceService.getParentResource(uuid);
         return ret;
+    }
+
+    @RequestMapping(value = "/v" + Constants.REST_API_1_0 + "/" + Constants.GET_ALL_RESOURCES, method = RequestMethod.GET)
+    public List<ResourceDTO> getAllDtos(){
+//        ResponseEntity<List<ResourceDTO>> resp = new ResponseEntity<List<ResourceDTO>>(resourceService.getAllRes());
+        LOG.trace(Constants.GET_ALL_RESOURCES + " request all data");
+        List<ResourceDTO> retList = resourceService.getAllRes();
+        return  retList;
+    }
+
+    @RequestMapping(value = "/v" + Constants.REST_API_1_0 + "/" + Constants.GET_ALL_REVISIONS+ "/{uid}", method = RequestMethod.GET)
+    public List<String[]> getAllRevs(@PathVariable String uid){
+//        ResponseEntity<List<ResourceDTO>> resp = new ResponseEntity<List<ResourceDTO>>(resourceService.getAllRes());
+        LOG.trace(Constants.GET_ALL_REVISIONS + " request all revisions");
+        List<String[]> retList = resourceService.getAllRevs(uid);
+        return  retList;
     }
 }

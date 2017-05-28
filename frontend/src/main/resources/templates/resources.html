@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head  lang="en">
+    <link href="/static/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet" type="text/css" />
+    <meta charset="UTF-8">
+        <title>Resources</title>
+    </meta>
+</head>
+<body>
+<div class="container">
+    <div th:if="${not #lists.isEmpty(resources)}">
+        <h2>Resources</h2>
+        <table>
+            <tr>
+                <!--<th>Id</th>-->
+                <!--<th>Product Id</th>-->
+                <th>Resource Uid</th>
+                <th>Author</th>
+                <th>URI</th>
+                <!--<th>Edit</th>-->
+            </tr>
+            <tr th:each="resource : ${resources}">
+                <!--<td th:text="${resource.id}">Id</a></td>-->
+                <td th:text="${resource.resourceUID}">Resource Uid</td>
+                <td th:text="${resource.author}">Author</td>
+                <td th:text="${resource.resourceURI}">URI</td>
+                <td style="border-bottom: 0px solid black;"><a th:text ="Edit" th:href="${'resource/edit/' + resource.resourceUID}"></a></td>
+                <!--<td><a href="#" th:href="@{/resource/edit/resource.resourceUID}">Edit</a></td>-->
+                <!--<td><a th:href="${'/resource/delete/' + resource.resourceUID}">Delete</a></td>-->
+                <td style="border-bottom: 0px solid black;"><a onclick="return conf()" th:text ="Delete" th:href="@{|/resource/delete/${resource.resourceUID}|}"></a></td>
+                <!--<td><a th:href="${'/resource/revisions/' + resource.resourceUID}">Revisions</a></td>-->
+                <td style="border-bottom: 0px solid black;"><a th:text ="Revisions" th:href="@{|/resource/revisions/${resource.resourceUID}|}"></a></td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+
+<script>
+    function conf() {
+        return confirm("Are you sure you want to DELETE this resource?");
+    }
+</script>
+</body>
+</html>

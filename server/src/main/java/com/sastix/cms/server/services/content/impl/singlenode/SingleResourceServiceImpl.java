@@ -426,6 +426,14 @@ public class SingleResourceServiceImpl implements ResourceService {
     }
 
     @Override
+    public List<ResourceDTO> getAllRes() {
+        return null;
+    }
+
+    @Override
+    public List<String[]> getAllRevs(String uid){return null;}
+
+    @Override
     public MultipartFileSender getMultipartFileSender(String uuid) throws ResourceAccessError, IOException {
         return null;
     }

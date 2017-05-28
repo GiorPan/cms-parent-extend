@@ -29,6 +29,9 @@ import java.util.List;
 @Transactional
 public interface ResourceRepository extends CrudRepository<Resource, Integer> {
 
+    @Query("SELECT r FROM Resource r")
+    List<Resource> findAll();
+
     List<Resource> findByName(@Param("name") String name);
 
     @Query("SELECT r FROM Resource r WHERE r.uid = :uid")
@@ -42,6 +45,8 @@ public interface ResourceRepository extends CrudRepository<Resource, Integer> {
     Resource findOneByUid(@Param("uid") String uid);
 
     List<Resource> findByUidOrderByIdDesc(@Param("uid") String uid, Pageable pageable);
+
+    @Query("SELECT r FROM Resource r WHERE r.uid = :uid")
     List<Resource> findByUidOrderByIdAsc(@Param("uid") String uid, Pageable pageable);
 
 }

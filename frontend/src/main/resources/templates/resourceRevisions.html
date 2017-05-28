@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head  lang="en">
+    <link href="/static/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet" type="text/css" />
+    <meta charset="UTF-8">
+    <title>Revisions</title>
+    </meta>
+</head>
+<body>
+<div class="container">
+    <div th:if="${not #lists.isEmpty(revisions)}">
+        <h2>Revisions</h2>
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Created at</th>
+                <th>Deleted at</th>
+                <th>Title</th>
+                <th>Updated at</th>
+                <th>Archived resource id</th>
+                <th>Parent resource id</th>
+                <th>Resource id</th>
+            </tr>
+            <tr th:each="revision : ${revisions}">
+                <td th:text="${revision[0]}">Id</td>
+                <td th:text="${revision[1]}">Created at</td>
+                <td th:text="${revision[2]}">Deleted at</td>
+                <td th:text="${revision[3]}">Title</td>
+                <td th:text="${revision[4]}">Updated at</td>
+                <td th:text="${revision[5]}">Archived resource id</td>
+                <td th:text="${revision[6]}">Parent resource id</td>
+                <td th:text="${revision[7]}">Resource id</td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+</body>
+</html>

@@ -39,6 +39,8 @@ public interface Constants {
     static String LOCK_RESOURCE_DTO = "lockResourceDTO";
     static String UNLOCK_RESOURCE_DTO = "unlockResourceDTO";
     static String RENEW_RESOURCE_DTO_LOCK = "renewResourceDtoLock";
+    static String GET_ALL_RESOURCES = "getAllResources";
+    static String GET_ALL_REVISIONS = "getAllRevisions";
 
     /**
      * CACHE API ENDPOINTS

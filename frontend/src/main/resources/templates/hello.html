@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>CMS</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/static/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet" type="text/css" />
+</head>
+
+    <body>
+        <div class="sastix">
+
+            <center><img style="" src="../../static/images/logo.png" width="400"
+                         th:src="@{/images/logo.png}"/>
+            </center>
+
+        </div>
+
+        <div>
+            <p>Please select an option</p>
+            <ul>
+                <li><a href="resources.html" th:href="@{/resources}">Show Resources</a></li>
+                <li><a href="resourceform.html" th:href="@{/resource/new}">Create Resource</a></li>
+            </ul>
+
+        </div>
+
+
+
+    </body>
+</html>
+

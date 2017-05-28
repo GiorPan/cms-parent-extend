@@ -52,12 +52,14 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -69,6 +71,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
+@ComponentScan("com.sastix.cms.client.config")
 public class CmsClient implements ContentClient, LockClient, CacheClient, BeanFactoryAware {
     private Logger LOG = (Logger) LoggerFactory.getLogger(CmsClient.class);
 
@@ -178,6 +181,7 @@ public class CmsClient implements ContentClient, LockClient, CacheClient, BeanFa
         LOG.trace("API call: " + url);
         LOG.trace("Request: " + dataDTO.toString());
         return retryRestTemplate.postForObject(url, dataDTO, byte[].class);
+
     }
 
     @Override
@@ -301,7 +305,7 @@ public class CmsClient implements ContentClient, LockClient, CacheClient, BeanFa
             StringBuffer url = new StringBuffer(getUrlRoot()).append(Constants.GET_CACHE);
             LOG.debug("API call: " + url);
             LOG.debug("Request DTO: " + queryCacheDTO.toString());
-
+            LOG.trace("API call: " + url);
             cacheDTO = retryRestTemplate.postForObject(url.toString(), queryCacheDTO, CacheDTO.class);
 
             LOG.debug("Response DTO: {}", cacheDTO);
@@ -390,6 +394,22 @@ public class CmsClient implements ContentClient, LockClient, CacheClient, BeanFa
         LOG.debug("QueryDTO: " + queryLockDTO.toString());
         LockDTO retLockDTO = retryRestTemplate.postForObject(url.toString(), queryLockDTO, LockDTO.class);
         return retLockDTO;
+    }
+
+    @Override
+    public List<ResourceDTO> queryAllRes(){
+        StringBuilder url = new StringBuilder(getUrlRoot()).append(Constants.GET_ALL_RESOURCES);
+        LOG.trace("API call: " + url);
+        List<ResourceDTO> retList = retryRestTemplate.getForObject(url.toString(),List.class);
+        return retList;
+    }
+
+    @Override
+    public List<String[]> queryAllRevs(String uid){
+        final String url = apiVersionClient.getApiUrl() + "/" + Constants.GET_ALL_REVISIONS + "/" + uid;
+        LOG.trace("API call: " + url);
+        List<String[]> retList=retryRestTemplate.getForObject(url.toString(),List.class,uid);
+        return retList;
     }
 
     private void nullValidationChecker(Object obj, Class aClass) {
